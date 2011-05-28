@@ -34,7 +34,7 @@ public class BatteryLog extends ListActivity {
         Log.d(TAG, this.getClass().getName() + ": started");
         startService(new Intent(this, BatteryReceiverService.class));
 
-        readData();
+//        readData();
 
         // Use an existing ListAdapter that will map an array
         // of strings to TextViews
@@ -53,29 +53,29 @@ public class BatteryLog extends ListActivity {
     @Override
     public void onResume() {
         super.onResume();
-        readData();
+//        readData();
     }
 
-    public void readData() {
-        ArrayList<String> lines = new ArrayList<String>();
-        try {
-            BufferedReader in = new BufferedReader(new FileReader("/sdcard/battery.log"));
-            String str;
-            while ((str = in.readLine()) != null) {
-
-                String dateTime = str.substring(0, str.indexOf(" GMT")) + "\n";
-                String level = str.substring(str.indexOf("level: ") + 7, str.indexOf(" temp")) + "%";
-                String plugged = str.substring(str.indexOf("plugged: ") + 9, str.indexOf(" scale"));
-
-                lines.add(0, dateTime + " " + level + " " + (plugged.equals("0") ? "unplugged" : "plugged"));
-            }
-            in.close();
-        } catch (IOException e) {
-        }
-
-        mStrings = lines.toArray(new String[lines.size()]);
-
-    }
+//    public void readData() {
+//        ArrayList<String> lines = new ArrayList<String>();
+//        try {
+//            BufferedReader in = new BufferedReader(new FileReader("/sdcard/battery.log"));
+//            String str;
+//            while ((str = in.readLine()) != null) {
+//
+//                String dateTime = str.substring(0, str.indexOf(" GMT")) + "\n";
+//                String level = str.substring(str.indexOf("level: ") + 7, str.indexOf(" temp")) + "%";
+//                String plugged = str.substring(str.indexOf("plugged: ") + 9, str.indexOf(" scale"));
+//
+//                lines.add(0, dateTime + " " + level + " " + (plugged.equals("0") ? "unplugged" : "plugged"));
+//            }
+//            in.close();
+//        } catch (IOException e) {
+//        }
+//
+//        mStrings = lines.toArray(new String[lines.size()]);
+//
+//    }
 
 }
 

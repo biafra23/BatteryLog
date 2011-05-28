@@ -6,14 +6,14 @@
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
 
-        <activity android:name=".BatteryLog"
-                  android:label="@string/app_name">
-            <!--<activity android:name="List1"></activity>-->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <!--<activity android:name=".BatteryLog"-->
+                  <!--android:label="@string/app_name">-->
+            <!--&lt;!&ndash;<activity android:name="List1"></activity>&ndash;&gt;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <receiver android:name=".BatteryBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
