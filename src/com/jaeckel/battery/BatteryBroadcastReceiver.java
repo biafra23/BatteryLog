@@ -78,19 +78,16 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
 
         } else { // boot completed
 
-                c.startService(new Intent(c, BatteryReceiverService.class));
-       
-            }
+            c.startService(new Intent(c, BatteryReceiverService.class));
 
         }
 
-
+    }
 
 
     private double convTemp(int temp) {
         return temp / 10.0;
     }
-
 
 
 }

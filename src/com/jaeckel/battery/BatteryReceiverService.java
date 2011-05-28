@@ -19,6 +19,9 @@ public class BatteryReceiverService extends Service {
 
     private BatteryBroadcastReceiver br;
 
+    private boolean registered = false;
+    private IntentFilter intentFilter;
+
     @Override
     public IBinder onBind(Intent arg0) {
 
@@ -34,14 +37,17 @@ public class BatteryReceiverService extends Service {
         prefs.registerOnSharedPreferenceChangeListener(prefsListener);
 
         Log.d(TAG, "Starting BatteryReceiverService");
+        // create BroadcastReceiver
+        br = new BatteryBroadcastReceiver();
+        intentFilter = createBatteryIntentFilter();
+
         if (prefs.getBoolean("auto_start_service", false)) {
-            // create BroadcastReceiver
-            br = new BatteryBroadcastReceiver();
-            IntentFilter intentFilter = createBatteryIntentFilter();
             // register battery handler here
             this.registerReceiver(br, intentFilter);
+            registered = true;
         }
     }
+
 
     private IntentFilter createBatteryIntentFilter() {
         IntentFilter intentFilter = new IntentFilter();
@@ -53,19 +59,23 @@ public class BatteryReceiverService extends Service {
 
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 
-            toastMsg("Prefs changed");
+            toastMsg("BatteryReceiverService: Prefs changed");
             if ("auto_start_service".equals(s)) {
 
                 if (sharedPreferences.getBoolean("auto_start_service", false)) {
-                    toastMsg("Prefs changed: auto_start_service: " + true);
-
-                    BatteryReceiverService.this.unregisterReceiver(br);
+                    toastMsg("BatteryReceiverService: Prefs changed: auto_start_service: " + true);
+                    BatteryReceiverService.this.registerReceiver(br, intentFilter);
+                    registered = true;
 
                 } else {
-                    toastMsg("Prefs changed: auto_start_service: " + false);
 
-                    IntentFilter intentFilter = createBatteryIntentFilter();
-                    BatteryReceiverService.this.registerReceiver(br, intentFilter);
+                    toastMsg("BatteryReceiverService: Prefs changed: auto_start_service: " + false);
+                    if (registered) {
+                        BatteryReceiverService.this.unregisterReceiver(br);
+                        registered = false;
+                    }
+
+
                 }
             }
 
